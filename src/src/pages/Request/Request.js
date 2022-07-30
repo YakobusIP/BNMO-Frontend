@@ -41,7 +41,7 @@ function Request() {
             amount: parseInt(amount),
             currency: leftCurrency,
             converted_amount: 0,
-            account_id: String(accountData.id)
+            account_id: String(accountData.account_id)
         };
 
         console.log(data);
@@ -67,7 +67,7 @@ function Request() {
             amount: parseInt(amount),
             currency: rightCurrency,
             converted_amount: 0,
-            account_id: String(accountData.id)
+            account_id: String(accountData.account_id)
         };
 
         console.log(data);
@@ -96,7 +96,7 @@ function Request() {
     return (
         <>
             <div className="min-h-screen">
-                <NavbarCust current="customerrequest" />
+                <NavbarCust />
                 <div className="large-box justify-center">
                     <div className='flex flex-col items-center py-8'>
                         <div className="font-main drop-shadow-2xl text-white text-8xl">

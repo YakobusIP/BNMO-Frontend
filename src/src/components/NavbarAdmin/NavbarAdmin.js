@@ -1,17 +1,40 @@
 import logo from '../../assets/Logo.png'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function NavBarAdmin() {
+    const currentLoc = useLocation().pathname;
     return (
         <nav className="sticky top-0 flex bg-white justify-between items-center py-2 px-4">
-            <a href='/' className="w-1/12">
-                <img src={logo} alt='logo' />
-            </a>
+            <Link to='/' className="flex flex-row w-auto font-main items-center">
+                <img src={logo} alt='logo' className='w-1/6' />
+                <p className='pl-2 text-2xl text-theme-2 cursor-default'>ADMIN MODE</p>
+            </Link>
             <div className="text-black font-main text-sm lg:text-2xl px-4">
-                <a href='/accountverification' className='px-2 mx-2 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in'>ACCOUNT VERIFICATION</a>
-                <a href='/request' className='px-2 mx-2 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in'>REQUEST</a>
-                <a href='/customerdata' className='px-2 mx-2 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in'>CUSTOMER DATA</a>
-                <a href='/profile' className='btn px-2 ml-2 border-primary border-2 border-black transition duration-200 hover:bg-theme-1 hover:border-theme-1 hover:drop-shadow-md'>ADMIN</a>
+                {  
+                    <Link to='/transfer' className={(
+                        currentLoc === '/accountverification' ?
+                            'px-2 mx-2 transition duration-200 border-b-4 border-black'
+                        :
+                            'px-2 mx-2 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in'
+                    )}>ACCOUNT VERIFICATION</Link>
+                }
+                {
+                    <Link to='/validaterequest' className={(
+                        currentLoc === '/customerrequest' ?
+                            'px-2 mx-2 transition duration-200 border-b-4 border-black'
+                        :
+                            'px-2 mx-2 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in'
+                    )}>VALIDATE REQUEST</Link>
+                }
+                {
+                    <Link to='/customerdata' className={(
+                        currentLoc === '/requesthistory' || currentLoc === '/transferhistory' ?
+                            'px-2 mx-2 transition duration-200 border-b-4 border-black'
+                        :
+                            'px-2 mx-2 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in'
+                    )}>CUSTOMER DATA</Link>
+                }
+                <button className='btn px-2 ml-2 border-primary border-2 border-black transition duration-200 hover:bg-theme-2 hover:border-theme-2 hover:drop-shadow-md'>LOGOUT</button>
             </div>
         </nav>
     )

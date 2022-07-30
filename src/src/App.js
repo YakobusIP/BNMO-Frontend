@@ -11,6 +11,7 @@ import Transfer from './pages/Transfer/Transfer';
 import Footer from './components/Footer/Footer';
 import RequestHistory from './pages/History/RequestHistory';
 import TransferHistory from './pages/History/TransferHistory';
+import AccountVerification from './pages/AccountVerification/AccountVerification';
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path='/transfer' element={ <Transfer /> } />
                 <Route path='/requesthistory' element= { <RequestHistory />} />
                 <Route path='/transferhistory' element= { <TransferHistory />} />
+                <Route path='/accountverification' element= { <AccountVerification/> } />
             </Routes>
             <Footer />
         </div>

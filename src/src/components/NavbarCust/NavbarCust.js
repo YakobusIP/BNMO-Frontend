@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 function NavbarCust(props) {
     const currentLoc = useLocation().pathname;
     return (
-        <nav className="sticky top-0 flex bg-white justify-between items-center py-2 px-4">
+        <nav className="sticky top-0 flex bg-white bg-opacity-95 justify-between items-center py-2 px-4 z-20">
             <a href='/' className="w-1/12">
                 <img src={logo} alt='logo' />
             </a>

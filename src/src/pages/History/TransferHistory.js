@@ -23,7 +23,7 @@ function TransferHistory() {
 
     useEffect(() => {
         getTransferHistory();
-    }, [getTransferHistory()]);
+    }, [page]);
     return (
         <>
             <div className="min-h-screen">

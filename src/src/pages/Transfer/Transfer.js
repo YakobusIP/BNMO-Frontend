@@ -65,7 +65,7 @@ function Transfer() {
     }, []);
 
     function checkID(data) {
-        return data.id !== accountData.id;
+        return data.id !== accountData.account_id;
     }
 
     // Function to send transfer data
@@ -78,7 +78,7 @@ function Transfer() {
             amount: parseInt(amount),
             currency: currency,
             converted_amount: 0,
-            account_id: String(accountData.id)
+            account_id: String(accountData.account_id)
         };
 
         console.log(data);
@@ -97,7 +97,7 @@ function Transfer() {
     return (
         <>
             <div className="min-h-screen">
-                <NavbarCust current="transfer" />
+                <NavbarCust />
                 <div className="large-box justify-center">
                     <div className='flex flex-col items-center py-8'>
                         <div className="font-main drop-shadow-2xl text-white text-8xl">
@@ -116,7 +116,7 @@ function Transfer() {
                                 <option value="" className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1" disabled selected>Please choose the transfer destination</option>
                                 {
                                     filteredData.map((accounts) => (
-                                        <option value={accounts.id} className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ accounts.first_name } { accounts.last_name } ({ accounts.username })</option>
+                                        <option value={accounts.account_id} className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ accounts.first_name } { accounts.last_name } ({ accounts.username })</option>
                                     ))
                                 }
                             </select></p>

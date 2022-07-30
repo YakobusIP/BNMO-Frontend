@@ -23,7 +23,7 @@ function RequestHistory() {
 
     useEffect(() => {
         getRequestHistory();
-    }, [getRequestHistory()]);
+    }, [page]);
     return (
         <>
             <div className="min-h-screen">
