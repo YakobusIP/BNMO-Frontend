@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Chau+Philomene+One:ital@0;1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+   @apply rounded-full px-8 uppercase text-xl lg:text-2xl cursor-pointer tracking-wider;
+}
+
+.large-btn {
+    @apply rounded-full px-32 py-1 uppercase text-xl lg:text-2xl cursor-pointer tracking-wider;
+}
+
+.large-box {
+    @apply flex bg-theme-1 w-full;
+}
+
+.request-card {
+    @apply rounded-xl bg-white w-3/4 h-96 drop-shadow-2xl font-main
+}
+
+.history-card {
+    @apply rounded-xl w-2/3 lg:w-1/2 h-auto drop-shadow-2xl font-main text-lg lg:text-3xl
+}
+
+.green-box {
+  @apply bg-theme-1 rounded-xl drop-shadow-2xl;
+}
