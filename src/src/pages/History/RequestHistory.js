@@ -10,12 +10,26 @@ function RequestHistory() {
 
     // Pagination
     const [page, setPage] = useState(1);
+    const [pageCount, setPageCount] = useState(0);
+
+    const previousPage = () => {
+        if (page != 1) {
+            setPage(page - 1);
+        }
+    }
+
+    const nextPage = () => {
+        if (page != pageCount) {
+            setPage(page + 1);
+        }
+    }
 
     const getRequestHistory = () => {
         axios.get(`http://localhost:8080/api/requesthistory?page=${page}`, {
             withCredentials: true,
         }).then(response => {
             setRequestHistory(response.data.data);
+            setPageCount(response.data.metadata.last_page);
         }).catch(err => {
             console.log(err);
         })
@@ -41,38 +55,58 @@ function RequestHistory() {
                         <Link to='/transferhistory' className="mx-8 transition duration-200 border-b-4 border-transparent hover:border-black hover:ease-in">TRANSFER</Link>
                     </div>
                 </div>
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-row items-center justify-center">
                     {
-                        requestHistory.length >= 1 ?
-                            requestHistory.map((histories) => (
-                                histories.status === "pending" ?
-                                    <div className="history-card bg-theme-3 grid grid-cols-2 grid-rows-2 my-2 py-4 px-8 gap-2">
-                                        <p>{histories.request_type.toUpperCase()} BALANCE</p>
-                                        <p className="text-right">REQUESTED ON {moment(histories.CreatedAt).format("DD/MM/YYYY")}</p>
-                                        <p>STATUS {histories.status.toUpperCase()}</p>
-                                        <p className="text-right">AMOUNT: RP {histories.converted_amount}</p>
-                                    </div>
-                                :
-                                    histories.status === "accepted" ?
-                                        <div className="history-card bg-theme-1 grid grid-cols-2 grid-rows-2 my-2 py-4 px-8 gap-2">
+                        pageCount > 1 ?
+                            <button onClick={ previousPage } className="pagination-btn items-center border-primary border-2 border-black font-main ml-16">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                        : null
+                    }
+                    <div className="flex flex-col grow justify-center items-center pb-8">
+                        {
+                            requestHistory.length >= 1 ?
+                                requestHistory.map((histories) => (
+                                    histories.status === "pending" ?
+                                        <div className="history-card bg-theme-3 grid grid-cols-2 grid-rows-2 my-2 py-4 px-8 gap-2">
                                             <p>{histories.request_type.toUpperCase()} BALANCE</p>
                                             <p className="text-right">REQUESTED ON {moment(histories.CreatedAt).format("DD/MM/YYYY")}</p>
                                             <p>STATUS {histories.status.toUpperCase()}</p>
                                             <p className="text-right">AMOUNT: RP {histories.converted_amount}</p>
                                         </div>
                                     :
-                                        <div className="history-card bg-theme-2 grid grid-cols-2 grid-rows-2 my-2 py-4 px-8 gap-2">
-                                            <p>{histories.request_type.toUpperCase()} BALANCE</p>
-                                            <p className="text-right">REQUESTED ON {moment(histories.CreatedAt).format("DD/MM/YYYY")}</p>
-                                            <p>STATUS {histories.status.toUpperCase()}</p>
-                                            <p className="text-right">AMOUNT: RP {histories.converted_amount}</p>
-                                        </div>
-                            ))
-                        :
-                            <div className="flex items-center justify-center font-main text-3xl">REQUEST HISTORY IS EMPTY. START REQUESTING</div>
+                                        histories.status === "accepted" ?
+                                            <div className="history-card bg-theme-1 grid grid-cols-2 grid-rows-2 my-2 py-4 px-8 gap-2">
+                                                <p>{histories.request_type.toUpperCase()} BALANCE</p>
+                                                <p className="text-right">REQUESTED ON {moment(histories.CreatedAt).format("DD/MM/YYYY")}</p>
+                                                <p>STATUS {histories.status.toUpperCase()}</p>
+                                                <p className="text-right">AMOUNT: RP {histories.converted_amount}</p>
+                                            </div>
+                                        :
+                                            <div className="history-card bg-theme-2 grid grid-cols-2 grid-rows-2 my-2 py-4 px-8 gap-2">
+                                                <p>{histories.request_type.toUpperCase()} BALANCE</p>
+                                                <p className="text-right">REQUESTED ON {moment(histories.CreatedAt).format("DD/MM/YYYY")}</p>
+                                                <p>STATUS {histories.status.toUpperCase()}</p>
+                                                <p className="text-right">AMOUNT: RP {histories.converted_amount}</p>
+                                            </div>
+                                ))
+                            :
+                                <div className="flex items-center justify-center font-main text-3xl">REQUEST HISTORY IS EMPTY. START REQUESTING</div>
+                        }
+                    </div>
+                    {
+                        pageCount > 1 ?
+                            <button onClick={ nextPage } className="pagination-btn flex items-center border-primary border-2 border-black font-main justify-end mr-16">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        : null
                     }
                 </div>
-            </div>
+            </div>    
         </>
     );
 }

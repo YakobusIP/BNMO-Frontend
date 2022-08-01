@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
+// BUGGED (WILL SWITCH TO LOCALSTORAGE DATA)
 function Profile() {
     // Pull account data
     const [accountData, setAccountData] = useState();
@@ -32,7 +33,7 @@ function Profile() {
 
     // Get profile data from backend
     const getProfileData = async () => {
-        await axios.get(`http://localhost:8080/api/profile/${accountData.account_id}`, {
+        await axios.get(`http://localhost:8080/api/profile/${accountData.ID}`, {
             withCredentials: true,
         }).then(response => {
             console.log(response.data);
@@ -73,7 +74,7 @@ function Profile() {
     const updateFiles = () => {
         if (isUploaded) {
             const data = {
-                "id": accountData.account_id,
+                "id": accountData.ID,
                 "old_url": profileData.image_path,
                 "new_url": imageUrl
             }

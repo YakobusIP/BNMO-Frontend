@@ -6,6 +6,10 @@ import axios from 'axios';
 
 function Login() {
     // Input values
+    const [user, setUser] = useState({
+        email: "",
+        password: "",
+    })
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -21,13 +25,20 @@ function Login() {
             password: password
         };
 
+        console.log(data);
+
         await axios.post('http://localhost:8080/api/login', data, {
             withCredentials: true,
         }).then(response => {
             setPostMessage(response.data.message);
             localStorage.setItem("account", JSON.stringify(response.data.account));
             e.target.reset();
-            navigate('/customerrequest');
+            if (response.data.account.account_type == "customer") {
+                navigate('/customerrequest');
+            } else {
+                navigate('/accountverification');
+            }
+            
             }).catch(err => {
                 setPostMessage(err.response.data?.message);
             })

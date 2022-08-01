@@ -6,21 +6,39 @@ import { Link, useNavigate } from 'react-router-dom';
 import NavbarNL from '../../components/NavbarNL/NavbarNL';
 
 function Register() {
+    // Register data flow:
+    // 1. User input all form data values [first_name, last_name, username, email, password]
+    // 2. User upload photo
+    // 3. Send photo to backend and receive the url as a return message
+    // 4. Put image url into the user data
+    // 5. Send user data to backend
+    // 6. If any error occured, receive message from backend and display it
+
     // Check states
     const [isUploaded, setIsUploaded] = useState(false);
     const [forceRegister, setForceRegister]= useState(false);
 
     // Required inputs
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [imageUrl, setImageUrl] = useState(null);
+    const [user, setUser] = useState({
+        account_type: "customer",
+        account_status: "pending",
+        first_name: "",
+        last_name: "",
+        username: "",
+        email: "",
+        password: "",
+        image_path: "",
+        balance: 0,
+    })
 
     // Server message
     const [postMessage, setPostMessage] = useState(null);
     const navigate = useNavigate();
+
+    // Handle input change events
+    const handleChange = (e) => {
+        setUser(prev => ({...prev, [e.target.name]:e.target.value}));
+    }
 
     // Drop zone states
     const onDrop = useCallback(acceptedFiles => {
@@ -39,7 +57,7 @@ function Register() {
             };
             
             axios.post('http://localhost:8080/api/upload-image', formData, config).then(response => {
-                setImageUrl(response.data.url);
+                setUser(prev => ({...prev, image_path: response.data.url}));
             }).catch(err => {
                 console.log(err);
             })
@@ -55,19 +73,7 @@ function Register() {
         e.preventDefault();
 
         if (isUploaded) {
-            const data = {
-                account_type: "customer",
-                account_status: "pending",
-                first_name: firstName,
-                last_name: lastName,
-                username: username,
-                email: email,
-                password: password,
-                image_path: imageUrl,
-                balance: 0
-            };
-    
-            await axios.post('http://localhost:8080/api/register', data, {
+            await axios.post('http://localhost:8080/api/register', user, {
                 withCredentials: true,
             }).then(response => {
                 setPostMessage(response.data.message)
@@ -82,6 +88,7 @@ function Register() {
         }
     };
 
+    // Move screen to top when load the page
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -96,7 +103,8 @@ function Register() {
                         <div className="my-4">
                             <input 
                                 className="shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
-                                onChange={ (e) => setFirstName(e.target.value) }
+                                name="first_name"
+                                onChange={ handleChange }
                                 type="text" 
                                 placeholder="First Name" 
                                 required/>
@@ -104,7 +112,8 @@ function Register() {
                         <div className="my-4">
                             <input 
                                 className="shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
-                                onChange={ (e) => setLastName(e.target.value) }
+                                name="last_name"
+                                onChange={ handleChange }
                                 type="text" 
                                 placeholder="Last Name" 
                                 required/>
@@ -112,7 +121,8 @@ function Register() {
                         <div className="my-4">
                             <input 
                                 className="shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
-                                onChange={ (e) => setUsername(e.target.value) }
+                                name="username"
+                                onChange={ handleChange }
                                 type="text" 
                                 placeholder="Username" 
                                 required/>
@@ -120,7 +130,8 @@ function Register() {
                         <div className="my-4">
                             <input 
                                 className="shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
-                                onChange={ (e) => setEmail(e.target.value) }
+                                name="email"
+                                onChange={ handleChange }
                                 type="email" 
                                 placeholder="Email" 
                                 required/>
@@ -128,7 +139,8 @@ function Register() {
                         <div className="my-4">
                             <input 
                                 className="shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
-                                onChange= { (e) => setPassword(e.target.value) }
+                                name="password"
+                                onChange= { handleChange }
                                 type="password" 
                                 placeholder="Password" 
                                 required/>
@@ -136,15 +148,15 @@ function Register() {
                         <label>ID Photo</label>
                         <div {...getRootProps()} className="flex flex-col justify-center items-center my-4 border-dashed border-2 rounded-md border-black p-4 cursor-pointer">
                             <input {...getInputProps()}/>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             <p>Drop files to upload</p>
                             <p>or</p>
                             <p>Click to select files</p>
                             { isUploaded ? <p className='mt-2 text-theme-1 drop-shadow-xl'>File uploaded successfully</p> : <p className='mt-2 text-theme-2 drop-shadow-xl'>No file selected</p> }
                         </div>
-                        { forceRegister && <p className='mt-2 text-theme-2 drop-shadow-xl text-center'>Please upload your ID Photo</p> }
+                        { forceRegister && <p className='mt-2 text-theme-2 drop-shadow-xl text-center'>Please complete the registration form</p> }
                         { postMessage && <p className='text-xl mt-2 drop-shadow-xl text-center'>{postMessage}</p> }
                         <button type="submit" className='flex large-btn my-4 bg-theme-1 transition duration-200 hover:text-white hover:drop-shadow-md'>REGISTER</button>
                         <div className="flex justify-center items-center">

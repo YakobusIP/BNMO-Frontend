@@ -34,7 +34,6 @@ function Transfer() {
 
     // Change destination
     function changeTransferDestination(e) {
-        console.log("test");
         setDestination(e.target.value);
     }
 
@@ -65,7 +64,7 @@ function Transfer() {
     }, []);
 
     function checkID(data) {
-        return data.id !== accountData.account_id;
+        return data.id !== accountData.ID;
     }
 
     // Function to send transfer data
@@ -78,7 +77,7 @@ function Transfer() {
             amount: parseInt(amount),
             currency: currency,
             converted_amount: 0,
-            account_id: String(accountData.account_id)
+            account_id: accountData.ID
         };
 
         console.log(data);
@@ -116,7 +115,7 @@ function Transfer() {
                                 <option value="" className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1" disabled selected>Please choose the transfer destination</option>
                                 {
                                     filteredData.map((accounts) => (
-                                        <option value={accounts.account_id} className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ accounts.first_name } { accounts.last_name } ({ accounts.username })</option>
+                                        <option value={accounts.ID} className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ accounts.first_name } { accounts.last_name } ({ accounts.username })</option>
                                     ))
                                 }
                             </select></p>
@@ -124,7 +123,7 @@ function Transfer() {
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
-                            <option value={"IDR"} selected>IDR - Indonesian Rupiah</option>
+                            <option value="" className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1" disabled selected>Please choose the preffered currency</option>
                             {
                                 Object.entries(currencies).map(([key, item]) => <option value = { key } className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ key } - { item }</option>)
                             }  

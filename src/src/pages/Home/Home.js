@@ -5,23 +5,33 @@ import { Link } from 'react-router-dom';
 import NavbarNL from '../../components/NavbarNL/NavbarNL';
 import { useEffect, useState } from 'react';
 import NavbarCust from '../../components/NavbarCust/NavbarCust';
+import NavBarAdmin from '../../components/NavbarAdmin/NavbarAdmin';
 
 function Home() {
     // Flag states
     const [customerLogged, setCustomerLogged] = useState(false);
-    //const [adminLogged, setAdminLogged] = useState(false);
+    const [adminLogged, setAdminLogged] = useState(false);
     const [notLogged, setNotLogged] = useState(true);
 
     useEffect(() => {
         const account = localStorage.getItem("account");
+        const parseAccount = JSON.parse(account);
         if (account) {
-            setCustomerLogged(true);
-            setNotLogged(false);
+            if (parseAccount.account_type == "customer") {
+                setAdminLogged(false);
+                setCustomerLogged(true);
+                setNotLogged(false);
+            } else if (parseAccount.account_type == "admin") {
+                setCustomerLogged(false);
+                setAdminLogged(true);
+                setNotLogged(false);
+            }
         }
     }, [])
     return (
         <>
             { customerLogged && <NavbarCust /> }
+            { adminLogged && <NavBarAdmin /> }
             { notLogged && <NavbarNL/> }
             <div className="large-box justify-center">
                 <div className='flex flex-col items-center py-4'>

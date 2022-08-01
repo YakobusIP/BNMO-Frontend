@@ -62,6 +62,7 @@ export const currencies = {
     "HRK": "Croatian Kuna",
     "HTG": "Haitian Gourde",
     "HUF": "Hungarian Forint",
+    "IDR": "Indonesian Rupiah",
     "ILS": "Israeli New Sheqel",
     "IMP": "Manx pound",
     "INR": "Indian Rupee",
