@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSnackbar } from 'react-simple-snackbar';
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import CurrencyFormat from 'react-currency-format';
 
 function RequestVerification() {
     // Request Verification data flow:
@@ -15,7 +16,6 @@ function RequestVerification() {
     const [pageCount, setPageCount] = useState(0);
     
     // Warning
-    const [message, setMessage] = useState();
     const [openSnackbar] = useSnackbar();
 
     const navigate = useNavigate();
@@ -118,11 +118,16 @@ function RequestVerification() {
                         {
                             pendingRequests.length >= 1 ? 
                                 pendingRequests.map((requests) => (
-                                    <div key={requests.id} className="history-card bg-white grid grid-cols-3 grid-rows-2 font-main my-2 py-4 px-8 gap-2 items-center">
-                                        <p className="text-lg md:text-xl lg:text-2xl col-start-1 col-end-1 row-start-1 row-end-1">Amount: Rp {requests.converted_amount}</p>
-                                        <p className="text-sm md:text-md lg:text-lg col-start-1 col-end-1 row-start-2 row-end-2">Registered on {moment(requests.CreatedAt).format("DD/MM/YYYY")}</p>
-                                        <p className="text-lg md:text-xl lg:text-2xl text-right col-span-2 row-start-1 row-end-1">{requests.request_type.toUpperCase()} BALANCE</p>
-                                        <div className="text-lg md:text-xl lg:text-2xl col-span-2 row-span-2 grid grid-cols-2 grid-rows-1 row-start-2 row-end-2 gap-4 ml-16">
+                                    <div key={requests.id} className="history-card bg-white grid grid-cols-3 grid-rows-3 font-main my-2 py-4 px-8 gap-2 items-center">
+                                        <p className="text-lg flex flex-row md:text-xl lg:text-2xl col-start-1 col-end-1 row-start-1 row-end-1">Name: {requests.account.first_name} {requests.account.last_name}</p>
+                                        <p className="text-lg flex flex-row md:text-xl lg:text-2xl col-start-1 col-end-1 row-start-2 row-end-2">Username: {requests.account.username}</p>
+                                        <p className="text-sm md:text-md lg:text-lg col-start-1 col-end-1 row-start-3 row-end-3">Registered on {moment(requests.CreatedAt).format("DD/MM/YYYY")}</p>
+                                        <p className="text-xl md:text-2xl lg:text-3xl col-span-2 row-start-1 row-end-1 text-right">{requests.request_type.toUpperCase()} BALANCE</p>
+                                        <div className="text-lg inline-flex justify-end md:text-xl lg:text-2xl col-span-2 row-start-2 row-end-2 text-right">
+                                            <p className="">Amount: </p>
+                                            <CurrencyFormat value={requests.converted_amount} displayType={'text'} thousandSeparator={true} prefix={'Rp'} className="pl-2" />
+                                        </div>
+                                        <div className="text-lg md:text-xl lg:text-2xl col-span-2 row-span-2 grid grid-cols-2 grid-rows-1 row-start-3 row-end-3 gap-4 ml-16">
                                             <button onClick={() => acceptAccount(requests.ID)} className="btn text-center border-primary border-2 border-theme-1 bg-theme-1 transition duration-200 hover:text-white hover:drop-shadow-lg">ACCEPT</button>
                                             <button onClick={() => rejectAccount(requests.ID)} className="btn text-center border-primary border-2 border-theme-2 bg-theme-2 transition duration-200 hover:text-white hover:drop-shadow-lg">REJECT</button>
                                         </div>

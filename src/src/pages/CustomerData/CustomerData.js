@@ -2,6 +2,7 @@ import axios from "axios";
 import NavBarAdmin from "../../components/NavbarAdmin/NavbarAdmin";
 import { useEffect, useState } from 'react';
 import moment from "moment";
+import CurrencyFormat from 'react-currency-format';
 
 function searchFullName(query, val) {
     const fullName = val?.first_name + ' ' + val?.last_name;
@@ -126,7 +127,10 @@ function CustomerData() {
                                     <p className="text-lg md:text-xl lg:text-2xl col-start-1 col-end-1 row-start-2 row-end-2">Username: {accounts.username}</p>
                                     <p className="text-sm md:text-md lg:text-lg col-start-1 col-end-1 row-start-3 row-end-3">Registered on {moment(accounts.created_at).format("DD/MM/YYYY")}</p>
                                     <p className="text-sm md:text-md lg:text-lg text-right">Email: {accounts.email}</p>
-                                    <p className="text-md md:text-lg lg:text-xl text-right row-start-2 row-end-2">Balance: {accounts.balance}</p>
+                                    <div className="text-md inline-flex justify-end md:text-lg lg:text-xl row-start-2 row-end-2 text-right">
+                                        <p className="">Amount: </p>
+                                        <CurrencyFormat value={accounts.balance} displayType={'text'} thousandSeparator={true} prefix={'Rp'} className="pl-2" />
+                                    </div>
                                     <button onClick={() => displayModal(accounts, true)} className="btn text-lg md:text-xl lg:text-2xl w-fit border-primary place-self-end border-2 border-black transition duration-200 hover:bg-theme-1 hover:border-theme-1 hover:drop-shadow-lg">OPEN IMAGE</button>
                                 </div>
                             ))
