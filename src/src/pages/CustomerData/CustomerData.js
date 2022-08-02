@@ -121,6 +121,7 @@ function CustomerData() {
                                 } else if (searchEmail(query, val)) {
                                     return val;
                                 }
+                                return null;
                             }).map((accounts) => (
                                 <div key={accounts.profile_id} className="customerdata-card bg-white grid grid-cols-2 grid-rows-3 font-main my-2 py-4 px-8 gap-2 items-center">
                                     <p className="text-lg md:text-xl lg:text-2xl">Name: {accounts.first_name} {accounts.last_name}</p>

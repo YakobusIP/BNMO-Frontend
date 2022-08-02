@@ -17,11 +17,11 @@ function Home() {
         const account = localStorage.getItem("account");
         const parseAccount = JSON.parse(account);
         if (account) {
-            if (parseAccount.account_type == "customer") {
+            if (parseAccount.account_type === "customer") {
                 setAdminLogged(false);
                 setCustomerLogged(true);
                 setNotLogged(false);
-            } else if (parseAccount.account_type == "admin") {
+            } else if (parseAccount.account_type === "admin") {
                 setCustomerLogged(false);
                 setAdminLogged(true);
                 setNotLogged(false);
@@ -88,7 +88,7 @@ function Home() {
                     </p>
                 </div>
                 <div className='text-black py-6 font-main text-base lg:text-3xl px-4'>
-                    <a href='/signup' className='btn px-2 transition duration-200 bg-theme-1 hover:text-white hover:drop-shadow-md'>GET STARTED</a>
+                    <Link to='/register' className='btn px-2 transition duration-200 bg-theme-1 hover:text-white hover:drop-shadow-md'>GET STARTED</Link>
                 </div>
             </div>
         </>

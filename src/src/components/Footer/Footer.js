@@ -1,5 +1,4 @@
 import whitelogo from '../../assets/Logo-White.png';
-import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
