@@ -47,7 +47,9 @@ function Transfer() {
         }).then(response => {
             setTransferData(response.data.data);
         }).catch(err => {
-            console.log(err);
+            if (err.response.status === 401) {
+                navigate('/login');
+            }
         })
     }
 
@@ -93,6 +95,9 @@ function Transfer() {
             const currency = document.getElementById("currency");
             currency.selectedIndex = null;
         }).catch(err => {
+            if (err.response.status === 401) {
+                navigate('/login');
+            }
             setPostMessage(err.response.data.message);
         });
     }

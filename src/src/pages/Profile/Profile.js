@@ -75,7 +75,9 @@ function Profile() {
                 setImageUrl(response.data.url);
                 setIsUploaded(true);   
             }).catch(err => {
-                console.log(err);
+                if (err.response.status === 401) {
+                    navigate('/login');
+                }
             })    
         }
         
@@ -95,7 +97,9 @@ function Profile() {
             }).then(response => {
                 console.log(response);
             }).catch(err => {
-                console.log(err);
+                if (err.response.status === 401) {
+                    navigate('/login');
+                }
             })
         }
         setIsUploaded(false);

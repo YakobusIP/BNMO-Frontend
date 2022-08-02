@@ -50,7 +50,6 @@ function RequestHistory() {
             axios.get(`http://localhost:8080/api/requesthistory?id=${accountData?.ID}&page=${page}`, {
                 withCredentials: true,
             }).then(response => {
-                console.log(response.data);
                 setRequestHistory(response.data.data);
                 setPageCount(response.data.metadata.last_page);
             }).catch(err => {

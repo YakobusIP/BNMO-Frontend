@@ -45,16 +45,18 @@ function TransferHistory() {
 
     // Get transfer history from backend
     const getTransferHistory = () => {
-        axios.get(`http://localhost:8080/api/transferhistory?id=${accountData?.ID}&page=${page}`, {
-            withCredentials: true,
-        }).then(response => {
-            setTransferHistory(response.data.data);
-            setPageCount(response.data.metadata.last_page);
-        }).catch(err => {
-            if (err.response.status === 401) {
-                navigate('/login');
-            }
-        })
+        if (Object.keys(accountData).length !== 0) {
+            axios.get(`http://localhost:8080/api/transferhistory?id=${accountData?.ID}&page=${page}`, {
+                withCredentials: true,
+            }).then(response => {
+                setTransferHistory(response.data.data);
+                setPageCount(response.data.metadata.last_page);
+            }).catch(err => {
+                if (err.response.status === 401) {
+                    navigate('/login');
+                }
+            })
+        }
     }
 
     // Get request history and refresh everytime page changes

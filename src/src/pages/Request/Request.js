@@ -59,6 +59,9 @@ function Request() {
             const left_select = document.getElementById("left_currency");
             left_select.selectedIndex = null;
         }).catch(err => {
+            if (err.response.status === 401) {
+                navigate('/login');
+            }
             setLeftPostMessage(err.response.data.message);
         });
     }
@@ -85,6 +88,9 @@ function Request() {
             const right_select = document.getElementById("right_currency");
             right_select.selectedIndex = null;
         }).catch(err => {
+            if (err.response.status === 401) {
+                navigate('/login');
+            }
             setRightPostMessage(err.response.data.message);
         });
     }

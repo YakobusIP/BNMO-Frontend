@@ -1,6 +1,7 @@
 import axios from "axios";
 import NavBarAdmin from "../../components/NavbarAdmin/NavbarAdmin";
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 import CurrencyFormat from 'react-currency-format';
 
@@ -39,6 +40,8 @@ function CustomerData() {
     const [showModal, setShowModal] = useState(false);
     const [imageID, setImageID] = useState();
 
+    const navigate = useNavigate();
+
     // Display modal
     const displayModal = (accounts, state) => {
         if (!showModal) {
@@ -54,7 +57,9 @@ function CustomerData() {
         }).then(response => {
             setCustomerDatas(response.data.data);
         }).catch(err => {
-            console.log(err);
+            if (err.response.status === 401) {
+                navigate('/login');
+            }
         })
     }
 
