@@ -5,8 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import NavbarCust from '../../components/NavbarCust/NavbarCust';
 
 function Request() {
+    // Request data flow:
+    // 1. Pull currency names from Currencies.js
+    // 2. Pull account data from local storage
+    // 3. User input request amount with the preferred currency
+    // 4. Send request data to backend
+    // 5. If any error occured, receive message from backend and display it
+
     // Account data
-    const [accountData, setAccountData] = useState();
+    const [accountData, setAccountData] = useState({});
 
     // Input values
     const [amount, setAmount] = useState(0);
@@ -44,13 +51,13 @@ function Request() {
             account_id: accountData.ID
         };
 
-        console.log(data);
-
         await axios.post('http://localhost:8080/api/customerrequest/add', data, {
             withCredentials: true,
         }).then(response => {
             setLeftPostMessage(response.data.message);
             e.target.reset();
+            const left_select = document.getElementById("left_currency");
+            left_select.selectedIndex = null;
         }).catch(err => {
             setLeftPostMessage(err.response.data.message);
         });
@@ -70,18 +77,20 @@ function Request() {
             account_id: accountData.ID
         };
 
-        console.log(data);
-
         await axios.post('http://localhost:8080/api/customerrequest/subtract', data, {
             withCredentials: true,
         }).then(response => {
             setRightPostMessage(response.data.message);
             e.target.reset();
+            const right_select = document.getElementById("right_currency");
+            right_select.selectedIndex = null;
         }).catch(err => {
             setRightPostMessage(err.response.data.message);
         });
     }
 
+    // Move screen to top when load the page
+    // Pull account data from local storage
     useEffect(() => {
         window.scrollTo(0, 0);
         const Account = localStorage.getItem("account");
@@ -107,14 +116,13 @@ function Request() {
                 <div className="flex flex-col lg:flex-row justify-center items-center lg:justify-between">
                     <form className="request-card mx-6 my-8 lg:my-16 lg:ml-12 flex flex-col justify-center items-center" onSubmit={ sendAddRequest }>
                         <p className="mt-4 text-4xl text-center">ADD BALANCE</p>
-                        <select className='flex my-2 justify-center rounded-xl shadow-md border px-4 py-2' onChange={ changeLeftCurrencies }>
+                        <select id="left_currency" className='flex my-2 justify-center rounded-xl shadow-md border px-4 py-2' onChange={ changeLeftCurrencies }>
                             <option value="" className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1" disabled selected>Please choose the preffered currency</option>
                             {
-                                Object.entries(currencies).map(([key, item]) => <option value = { key } className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ key } - { item }</option>)
+                                Object.entries(currencies).map(([key, item]) => <option key= { key } value = { key } className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ key } - { item }</option>)
                             }
-                                
                         </select>
-                        <div className="my-4 w-full xl:w-3/4 px-8">
+                        <div className="my-4 w-full md:w-2/3 xl:w-3/4 px-8">
                             <input 
                                 className="-z-1 shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
                                 onChange={ (e) => setAmount(e.target.value)}
@@ -129,14 +137,13 @@ function Request() {
                     </form>
                     <form className="request-card mx-6 mb-8 lg:my-16 lg:mr-12 flex flex-col justify-center items-center" onSubmit={ sendSubtractRequest }>
                         <p className="mt-4 text-4xl text-center">SUBTRACT BALANCE</p>
-                        <select className='flex my-2 justify-center rounded-xl shadow-md border px-4 py-2' onChange={ changeRightCurrencies }>
+                        <select id="right_currency" className='flex my-2 justify-center rounded-xl shadow-md border px-4 py-2' onChange={ changeRightCurrencies }>
                             <option value="" className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1" disabled selected>Please choose the preffered currency</option>
                             {
-                                Object.entries(currencies).map(([key, item]) => <option value = { key } className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ key } - { item }</option>)
+                                Object.entries(currencies).map(([key, item]) => <option key= { key } value = { key } className="text-gray-700 block px-4 py-2 text-sm hover:bg-theme-1">{ key } - { item }</option>)
                             }
-                                
                         </select>
-                        <div className="my-4 w-full xl:w-3/4 px-8">
+                        <div className="my-4 w-full md:w-2/3 xl:w-3/4 px-8">
                             <input 
                                 className="-z-1 shadow-md appearance-none border rounded-full w-full px-4 py-2 focus:outline-none focus:shadow-outline" 
                                 onChange={ (e) => setAmount(e.target.value)}

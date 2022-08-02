@@ -37,7 +37,7 @@ function Register() {
 
     // Handle input change events
     const handleChange = (e) => {
-        setUser(prev => ({...prev, [e.target.name]:e.target.value}));
+        setUser(prev => ({...prev, [e.target.name]: e.target.value}));
     }
 
     // Drop zone states

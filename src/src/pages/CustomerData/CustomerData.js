@@ -16,7 +16,18 @@ function searchDate(query, val) {
     return moment(val?.CreatedAt).format("DD/MM/YYYY").includes(query?.toLowerCase().trim());
 }
 
+function searchEmail(query, val) {
+    return val?.email.toLowerCase() === query?.toLowerCase().trim();
+}
+
 function CustomerData() {
+    // Customer Data data flow:
+    // 1. Get all customer data from backend
+    // 2. If no search query is available, display all datas
+    // 3. If search query is available, display datas based on the query
+    // Possible query filters are search by full name, search by username, 
+    // search by registered date, and search by email
+
     // Search values
     const [query, setQuery] = useState('');
 
@@ -79,9 +90,9 @@ function CustomerData() {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center my-4">
-                    <div className="relative items-center w-2/3 lg:w-1/2">
-                        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                <div className="flex justify-center my-4 ">
+                    <div className="relative items-center w-2/3 lg:w-1/2 ">
+                        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none ">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
@@ -106,7 +117,9 @@ function CustomerData() {
                                     return val;
                                 } else if (searchDate(query, val)) {
                                     return val;
-                                } 
+                                } else if (searchEmail(query, val)) {
+                                    return val;
+                                }
                             }).map((accounts) => (
                                 <div key={accounts.profile_id} className="customerdata-card bg-white grid grid-cols-2 grid-rows-3 font-main my-2 py-4 px-8 gap-2 items-center">
                                     <p className="text-lg md:text-xl lg:text-2xl">Name: {accounts.first_name} {accounts.last_name}</p>

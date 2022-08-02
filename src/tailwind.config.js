@@ -15,6 +15,13 @@ module.exports = {
           },
           spacing: {
               '128': '32rem',
+          },
+          maxWidth: {
+            '40': '40%',
+            '60': '60%',
+          },
+          maxHeight: {
+            'screen-fit': '50vh',
           }
       },
   },
