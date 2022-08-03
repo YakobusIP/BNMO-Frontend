@@ -25,7 +25,7 @@ function NavBarAdmin() {
                 <img src={logo} alt='logo' className='w-1/6' />
                 <p className='pl-2 text-2xl text-theme-2 cursor-default'>ADMIN MODE</p>
             </Link>
-            <div className="text-black font-main text-sm lg:text-2xl px-4">
+            <div className="text-black font-main text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-4">
                 {  
                     <Link to='/accountverification' className={(
                         currentLoc === '/accountverification' ?

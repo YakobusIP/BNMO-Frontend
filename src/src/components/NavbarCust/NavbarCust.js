@@ -8,7 +8,7 @@ function NavbarCust(props) {
             <a href='/' className="w-1/12">
                 <img src={logo} alt='logo' />
             </a>
-            <div className="text-black font-main text-sm lg:text-2xl px-4">
+            <div className="text-black font-main text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-4">
                 {  
                     <Link to='/transfer' className={(
                         currentLoc === '/transfer' ?

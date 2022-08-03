@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 .btn {
-   @apply rounded-full px-8 uppercase text-xl lg:text-2xl cursor-pointer tracking-wider;
+   @apply rounded-full px-8 uppercase text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl cursor-pointer tracking-wider;
 }
 
 .large-btn {
-    @apply rounded-full px-32 py-1 uppercase text-xl lg:text-2xl cursor-pointer tracking-wider;
+    @apply rounded-full px-32 py-1 uppercase text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl cursor-pointer tracking-wider;
 }
 
 .pagination-btn {
